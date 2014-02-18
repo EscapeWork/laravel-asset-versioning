@@ -27,7 +27,7 @@ class AssetsServiceProvider extends ServiceProvider
             return new Asset($app, $app['config'], array(
                 'app'    => app_path(),
                 'public' => public_path(),
-            );
+            ));
         });
 
         $this->app['escapework.asset.command'] = $this->app->share(function($app)
