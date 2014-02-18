@@ -1,0 +1,32 @@
+{
+    "name": "escapework/laravel-asset-versioning",
+    "description": "Package to help you avoid cache by versioning your assets",
+
+    "authors": [
+        {
+            "name": "Luís Dalmolin",
+            "email": "luis.nh@gmail.com"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.*",
+        "illuminate/console": "4.*",
+        "illuminate/foundation": "4.*",
+        "nesbot/carbon": "1.*"
+    },
+
+    "require-dev": {
+        "phpunit/phpunit": "@stable",
+        "mockery/mockery": "@stable"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "EscapeWork\\Assets": "src/"
+        }
+    },
+
+    "minimum-stability": "stable"
+}
