@@ -35,16 +35,22 @@ class AssetDistCommand extends Command
     protected $config;
 
     /**
+     * @var array
+     */
+    protected $paths;
+
+    /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(Config $config, File $file)
+    public function __construct(Config $config, File $file, $paths)
     {
         parent::__construct();
 
         $this->config = $config;
         $this->file   = $file;
+        $this->paths  = $paths;
     }
 
     /**
@@ -65,7 +71,7 @@ class AssetDistCommand extends Command
 
     public function updateConfigVersion($newVersion, $oldVersion)
     {
-        $configPath = app_path().'/config/packages/escapework/assets/config.php';
+        $configPath = $this->paths['app'].'/config/packages/escapework/assets/config.php';
 
         if (! $this->file->exists($configPath)) {
             $this->call('config:publish', array('package' => 'escapework/assets'));
@@ -80,7 +86,7 @@ class AssetDistCommand extends Command
     public function deleteOldDirectories($types, $oldVersion)
     {
         foreach ($types as $type => $directories) {
-            $dir = public_path().'/'.$directories['dist_dir'].'/'.$oldVersion;
+            $dir = $this->paths['public'].'/'.$directories['dist_dir'].'/'.$oldVersion;
 
             $this->file->deleteDirectory($dir);
         }
@@ -89,8 +95,8 @@ class AssetDistCommand extends Command
     public function createDistDirectories($types, $version)
     {
         foreach ($types as $type => $directories) {
-            $origin_dir = public_path().'/'.$directories['origin_dir'];
-            $dist_dir   = public_path().'/'.$directories['dist_dir'].'/'.$version;
+            $origin_dir = $this->paths['public'].'/'.$directories['origin_dir'];
+            $dist_dir   = $this->paths['public'].'/'.$directories['dist_dir'].'/'.$version;
 
             $this->file->copyDirectory($origin_dir, $dist_dir);
 
