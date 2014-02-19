@@ -30,7 +30,7 @@ After that, you just need to add the service provider to your app service provid
 Publish the configurations running the following command:
 
 ```bash
-$ php artisan config:publish escapework/assets
+$ php artisan config:publish escapework/laravel-asset-versioning
 ```
 
 Make sure your Laravel app is recognizing your local environment in the `bootstrap/start.php` file.
@@ -73,7 +73,7 @@ This package knows what folder you need by the file extension, which is the arra
 
 ## Configurations
 
-Of course you can configure the folders you need. Just edit the `app/config/packages/escapework/assets/config.php` file, in the `types` array.
+Of course you can configure the folders you need. Just edit the `app/config/packages/escapework/laravel-asset-versioning/config.php` file, in the `types` array.
 
 ```php
     'types' => array(
