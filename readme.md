@@ -41,8 +41,6 @@ $env = $app->detectEnvironment(array(
 ));
 ```
 
-We us
-
 ## Usage
 
 Instead of using the `asset` helper, you will need to use the `Asset:v` method.
