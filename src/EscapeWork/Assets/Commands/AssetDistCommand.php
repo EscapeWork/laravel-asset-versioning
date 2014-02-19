@@ -60,8 +60,8 @@ class AssetDistCommand extends Command
      */
     public function fire()
     {
-        $types      = $this->config->get('assets::types');
-        $oldVersion = $this->config->get('assets::version');
+        $types      = $this->config->get('laravel-asset-versioning::types');
+        $oldVersion = $this->config->get('laravel-asset-versioning::version');
         $newVersion = Carbon::now()->timestamp;
 
         $this->updateConfigVersion($newVersion, $oldVersion);
@@ -71,10 +71,10 @@ class AssetDistCommand extends Command
 
     public function updateConfigVersion($newVersion, $oldVersion)
     {
-        $configPath = $this->paths['app'].'/config/packages/escapework/assets/config.php';
+        $configPath = $this->paths['app'].'/config/packages/escapework/laravel-asset-versioning/config.php';
 
         if (! $this->file->exists($configPath)) {
-            $this->call('config:publish', array('package' => 'escapework/assets'));
+            $this->call('config:publish', array('package' => 'escapework/laravel-asset-versioning'));
         }
 
         $configFile    = $this->file->get($configPath);

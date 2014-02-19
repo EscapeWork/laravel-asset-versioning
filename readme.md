@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/EscapeWork/laravel-asset-versioning.png)](http://travis-ci.org/EscapeWork/laravel-asset-versioning) [![Latest Stable Version](https://poser.pugx.org/escapework/laravel-asset-versioning/v/stable.png)](https://packagist.org/packages/escapework/laravel-asset-versioning) [![Total Downloads](https://poser.pugx.org/escapework/laravel-asset-versioning/downloads.png)](https://packagist.org/packages/escapework/laravel-asset-versioning)
 
-Ever had a problem with cache in your assets? This package may hel you.
+Ever had a problem with cache in your assets? This package may help you.
 
 ## Installation
 

@@ -18,8 +18,8 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
     {
         $oldVersion = 1; $types = array();
 
-        $this->config->shouldReceive('get')->once()->with('assets::version')->andReturn($oldVersion);
-        $this->config->shouldReceive('get')->once()->with('assets::types')->andReturn($types);
+        $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::version')->andReturn($oldVersion);
+        $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::types')->andReturn($types);
 
         $command = m::mock('EscapeWork\Assets\Commands\AssetDistCommand[updateConfigVersion,deleteOldDirectories,createDistDirectories]', array($this->config, $this->file, $this->paths));
         $command->shouldReceive('updateConfigVersion')->once(m::any(), $oldVersion);
@@ -31,7 +31,7 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
 
     public function test_update_config_version_with_published_config()
     {
-        $configPath = $this->paths['app'] . '/config/packages/escapework/assets/config.php';
+        $configPath = $this->paths['app'] . '/config/packages/escapework/laravel-asset-versioning/config.php';
 
         $this->file->shouldReceive('exists')->once()->with($configPath)->andReturn(true);
         $this->file->shouldReceive('get')->once()->with($configPath)->andReturn('version=1');
@@ -43,14 +43,14 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
 
     public function test_update_config_version_with_unpublished_config()
     {
-        $configPath = $this->paths['app'] . '/config/packages/escapework/assets/config.php';
+        $configPath = $this->paths['app'] . '/config/packages/escapework/laravel-asset-versioning/config.php';
 
         $this->file->shouldReceive('exists')->once()->with($configPath)->andReturn(false);
         $this->file->shouldReceive('get')->once()->with($configPath)->andReturn('version=1');
         $this->file->shouldReceive('put')->once()->with($configPath, 'version=2');
 
         $command = m::mock('EscapeWork\Assets\Commands\AssetDistCommand[call]', array($this->config, $this->file, $this->paths));
-        $command->shouldReceive('call')->once()->with('config:publish', array('package' => 'escapework/assets'));
+        $command->shouldReceive('call')->once()->with('config:publish', array('package' => 'escapework/laravel-asset-versioning'));
         $command->updateConfigVersion(2, 1);
     }
 

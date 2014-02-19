@@ -37,8 +37,8 @@ class AssetTest extends \PHPUnit_Framework_TestCase
     public function test_replace_version_with_existing_extension()
     {
         $dirs = array('origin_dir' => 'assets/stylesheets/css', 'dist_dir' => 'assets/stylesheets/dist');
-        $this->config->shouldReceive('get')->once()->with('assets::version')->andReturn('0.0.1');
-        $this->config->shouldReceive('get')->once()->with('assets::types.css')->andReturn($dirs);
+        $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::version')->andReturn('0.0.1');
+        $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::types.css')->andReturn($dirs);
 
         $asset = new Asset($this->app, $this->config);
         $this->assertEquals('assets/stylesheets/dist/0.0.1/main.css', $asset->replaceVersion('assets/stylesheets/css/main.css'));
@@ -46,8 +46,8 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
     public function test_replace_version_with_non_existing_extension()
     {
-        $this->config->shouldReceive('get')->once()->with('assets::version')->andReturn('0.0.1');
-        $this->config->shouldReceive('get')->once()->with('assets::types.css')->andReturn(null);
+        $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::version')->andReturn('0.0.1');
+        $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::types.css')->andReturn(null);
 
         $asset = new Asset($this->app, $this->config);
         $this->assertEquals('assets/stylesheets/css/main.css', $asset->replaceVersion('assets/stylesheets/css/main.css'));

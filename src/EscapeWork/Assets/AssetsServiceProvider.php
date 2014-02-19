@@ -20,7 +20,7 @@ class AssetsServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
-        $this->package('escapework/assets', 'assets', realpath(__DIR__ . '/../..'));
+        $this->package('escapework/laravel-asset-versioning', 'laravel-asset-versioning', realpath(__DIR__ . '/../..'));
 
 		$this->app['escapework.asset'] = $this->app->share(function($app)
         {
