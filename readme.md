@@ -61,8 +61,8 @@ $ php artisan asset:dist
 And your layout will be rendered as this:
 
 ```html
-<link rel="stylesheet" href="{{ Asset::v('assets/stylesheets/dist/1392745827/main.css') }}" />
-<script src="{{ Asset::v('assets/javascripts/dist/1392745827/main.js') }}"></script>
+<link rel="stylesheet" href="/assets/stylesheets/dist/1392745827/main.css" />
+<script src="/assets/javascripts/dist/1392745827/main.js"></script>
 ```
 
 The version is the timestamp when you performed the `asset:dist` command.
