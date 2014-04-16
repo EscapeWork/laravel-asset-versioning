@@ -40,6 +40,11 @@ class AssetDistCommand extends Command
     protected $paths;
 
     /**
+     * Config file location
+     */
+    protected $configFileLocation = '/config/packages/escapework/laravel-asset-versioning/config.php';
+
+    /**
      * Create a new command instance.
      *
      * @return void
@@ -65,13 +70,13 @@ class AssetDistCommand extends Command
         $newVersion = Carbon::now()->timestamp;
 
         $this->updateConfigVersion($newVersion, $oldVersion);
-        $this->deleteOldDirectories($types, $oldVersion);
+        $this->deleteOldDirectories($types);
         $this->createDistDirectories($types, $newVersion);
     }
 
     public function updateConfigVersion($newVersion, $oldVersion)
     {
-        $configPath = $this->paths['app'].'/config/packages/escapework/laravel-asset-versioning/config.php';
+        $configPath = $this->paths['app'] . $this->configFileLocation;
 
         if (! $this->file->exists($configPath)) {
             $this->call('config:publish', array('package' => 'escapework/laravel-asset-versioning'));
@@ -83,12 +88,12 @@ class AssetDistCommand extends Command
         $this->file->put($configPath, $newConfigFile);
     }
 
-    public function deleteOldDirectories($types, $oldVersion)
+    public function deleteOldDirectories($types)
     {
         foreach ($types as $type => $directories) {
-            $dir = $this->paths['public'].'/'.$directories['dist_dir'].'/'.$oldVersion;
+            $dir = $this->paths['public'].'/'.$directories['dist_dir'];
 
-            $this->file->deleteDirectory($dir);
+            $this->file->cleanDirectory($dir);
         }
     }
 

@@ -23,7 +23,7 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
 
         $command = m::mock('EscapeWork\Assets\Commands\AssetDistCommand[updateConfigVersion,deleteOldDirectories,createDistDirectories]', array($this->config, $this->file, $this->paths));
         $command->shouldReceive('updateConfigVersion')->once(m::any(), $oldVersion);
-        $command->shouldReceive('deleteOldDirectories')->once()->with($types, $oldVersion);
+        $command->shouldReceive('deleteOldDirectories')->once()->with($types);
         $command->shouldReceive('createDistDirectories')->once($types, m::any());
 
         $command->fire();
@@ -62,11 +62,11 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
         );
 
         $baseDir = $this->paths['public'].'/';
-        $this->file->shouldReceive('deleteDirectory')->once()->with($baseDir . $types['css']['dist_dir'] . '/1');
-        $this->file->shouldReceive('deleteDirectory')->once()->with($baseDir . $types['js']['dist_dir'] . '/1');
+        $this->file->shouldReceive('cleanDirectory')->once()->with($baseDir . $types['css']['dist_dir']);
+        $this->file->shouldReceive('cleanDirectory')->once()->with($baseDir . $types['js']['dist_dir']);
 
         $command = new AssetDistCommand($this->config, $this->file, $this->paths);
-        $command->deleteOldDirectories($types, 1);
+        $command->deleteOldDirectories($types);
     }
 
     public function test_create_dist_directories()
