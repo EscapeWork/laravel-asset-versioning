@@ -1,8 +1,8 @@
-# Laravel - Assets Versioning 
+# Laravel - Assets Versioning
 
 [![Build Status](https://travis-ci.org/EscapeWork/laravel-asset-versioning.png)](http://travis-ci.org/EscapeWork/laravel-asset-versioning) [![Latest Stable Version](https://poser.pugx.org/escapework/laravel-asset-versioning/v/stable.png)](https://packagist.org/packages/escapework/laravel-asset-versioning) [![Total Downloads](https://poser.pugx.org/escapework/laravel-asset-versioning/downloads.png)](https://packagist.org/packages/escapework/laravel-asset-versioning)
 
-Ever had a problem with cache in your assets? This package may help you.
+Have you ever had a problem with cache in your assets? This package may help you.
 
 ## Installation
 
@@ -21,7 +21,7 @@ Then, run the composer update command:
 $ composer update
 ```
 
-After that, you just need to add the service provider to your app service providers. Open the file `app/config/app.php` and add this line:
+After that, you just need to add the following service provider to your app service providers. Open the file `app/config/app.php` and add this line:
 
 ```php
     'EscapeWork\Assets\AssetsServiceProvider'
@@ -33,7 +33,7 @@ Publish the configurations running the following command:
 $ php artisan config:publish escapework/laravel-asset-versioning
 ```
 
-Make sure your Laravel app is recognizing your local environment in the `bootstrap/start.php` file.
+Make sure your Laravel app recognizes your local environment in the `bootstrap/start.php` file.
 
 ```php
 $env = $app->detectEnvironment(array(
@@ -45,14 +45,14 @@ $env = $app->detectEnvironment(array(
 
 Instead of using the `asset` helper, you will need to use the `Asset:v` method.
 
-Imagine that your layout template you have the following lines:
+Imagine that your layout template has the following lines:
 
 ```html
 <link rel="stylesheet" href="{{ Asset::v('assets/stylesheets/css/main.css') }}" />
 <script src="{{ Asset::v('assets/javascripts/js/main.js') }}"></script>
 ```
 
-In your **local** environment, nothing changes. But in **production**, you just need to run the following command every time you need to update your assets version:
+In your **local** environment, nothing changes. But in **production**, you just need to run the following command every time you need to update your assets' version:
 
 ```bash
 $ php artisan asset:dist
@@ -67,7 +67,7 @@ And your layout will be rendered as this:
 
 The version is the timestamp when you performed the `asset:dist` command.
 
-This package knows what folder you need by the file extension, which is the array key in the config file.
+This package knows which folder you need by the file extension, which is the array key in the config file.
 
 ## Configurations
 
@@ -98,7 +98,7 @@ You also can add more folders by adding more items in the array.
 
 ### Next steps
 
-* Add a method to enable múltiple extensions in the same folder: Example: `jpg|png|gif' => array(...)`;
+* Add a method to enable multiple extensions in the same folder: Example: `jpg|png|gif' => array(...)`;
 * Your ideia here.
 
 ### Unit tests
@@ -128,5 +128,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
-
