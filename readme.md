@@ -103,7 +103,7 @@ You also can add more folders by adding more items in the array.
 
 ### Changelog
 
-##### 0.1.3
+##### 0.1.4
 
 * Added a new check to verify if the asset path starts with the origin_dir config;
 
