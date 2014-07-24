@@ -101,6 +101,12 @@ You also can add more folders by adding more items in the array.
 * Add a method to enable multiple extensions in the same folder: Example: `jpg|png|gif' => array(...)`;
 * Your ideia here.
 
+### Changelog
+
+##### 0.1.3
+
+* Added a new check to verify if the asset path starts with the origin_dir config;
+
 ### Unit tests
 
 To run the PHPUnit unit tests, clone this repository, install the dependencies with `composer install --dev` and run `vendor/bin/phpunit`.
