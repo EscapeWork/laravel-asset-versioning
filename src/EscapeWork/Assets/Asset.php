@@ -33,12 +33,16 @@ class Asset
 
     public function replaceVersion($path)
     {
-        $version   = $this->config->get('laravel-asset-versioning::version');
+        $version    = $this->config->get('laravel-asset-versioning::version');
         $file      = explode('.', $path);
         $extension = $file[count($file) - 1];
         $type      = $this->config->get('laravel-asset-versioning::types.' . $extension);
 
         if (! $type) {
+            return $path;
+        }
+
+        if (! preg_match('#^'.$type['origin_dir'].'#', $path)) {
             return $path;
         }
 
