@@ -53,6 +53,21 @@ class AssetTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('assets/stylesheets/css/main.css', $asset->replaceVersion('assets/stylesheets/css/main.css'));
     }
 
+    public function test_replace_version_with_non_valid_origin_dir()
+    {
+        $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::version')->andReturn('0.0.1');
+        $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::types.css')->andReturn([
+            'origin_dir' => 'assets/stylesheets/css', 
+            'dist_dir'   => 'assets/stylesheets/dist', 
+        ]);
+
+        $asset = new Asset($this->app, $this->config);
+        $this->assertEquals(
+            'packages/escapework/manager/assets/stylesheets/css/main.css', 
+            $asset->replaceVersion('packages/escapework/manager/assets/stylesheets/css/main.css')
+        );
+    }
+
     public function tearDown()
     {
         m::close();
