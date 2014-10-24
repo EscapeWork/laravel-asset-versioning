@@ -6,32 +6,31 @@ use Illuminate\Foundation\AliasLoader;
 class AssetsServiceProvider extends ServiceProvider
 {
 
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = false;
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-        $app = $this->app;
-
+    public function register()
+    {
         $this->package('escapework/laravel-asset-versioning', 'laravel-asset-versioning', realpath(__DIR__ . '/../..'));
+    }
+    
+    public function boot()
+    {
+        $app   = $this->app;
+        $cache = $this->getCacheDriver();
 
-		$this->app['escapework.asset'] = $this->app->share(function($app)
+        $this->app['escapework.asset'] = $this->app->share(function($app) use($cache)
         {
-            return new Asset($app, $app['config'], $app['cache.store']);
+            return new Asset($app, $app['config'], $cache);
         });
 
-        $this->app['escapework.asset.command'] = $this->app->share(function($app)
+        $this->app['escapework.asset.command'] = $this->app->share(function($app) use ($cache)
         {
-            return new Commands\AssetDistCommand($app['config'], $app['files'], $app['cache.store'], array(
+            return new Commands\AssetDistCommand($app['config'], $app['files'], $cache, array(
                 'app'    => app_path(),
                 'public' => public_path(),
             ));
@@ -50,16 +49,21 @@ class AssetsServiceProvider extends ServiceProvider
         {
             $app['artisan']->call('asset:dist');
         });
-	}
+    }
 
-	/**
-	 * Get the services provided by the provider.
-	 *
-	 * @return array
-	 */
-	public function provides()
-	{
-		return array('escapework.asset');
-	}
+    protected function getCacheDriver()
+    {
+        return $this->app['cache']->driver();
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return array('escapework.asset');
+    }
 
 }
