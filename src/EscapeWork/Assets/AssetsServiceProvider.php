@@ -24,12 +24,12 @@ class AssetsServiceProvider extends ServiceProvider
 
 		$this->app['escapework.asset'] = $this->app->share(function($app)
         {
-            return new Asset($app, $app['config']);
+            return new Asset($app, $app['config'], $app['cache']);
         });
 
         $this->app['escapework.asset.command'] = $this->app->share(function($app)
         {
-            return new Commands\AssetDistCommand($app['config'], $app['files'], array(
+            return new Commands\AssetDistCommand($app['config'], $app['files'], $app['cache'], array(
                 'app'    => app_path(),
                 'public' => public_path(),
             ));
