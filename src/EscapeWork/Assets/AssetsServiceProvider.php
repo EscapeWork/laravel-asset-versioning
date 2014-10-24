@@ -20,6 +20,8 @@ class AssetsServiceProvider extends ServiceProvider
 	 */
 	public function register()
 	{
+        $app = $this->app;
+
         $this->package('escapework/laravel-asset-versioning', 'laravel-asset-versioning', realpath(__DIR__ . '/../..'));
 
 		$this->app['escapework.asset'] = $this->app->share(function($app)
@@ -42,6 +44,11 @@ class AssetsServiceProvider extends ServiceProvider
             $loader = AliasLoader::getInstance();
 
             $loader->alias('Asset', 'EscapeWork\Assets\Facades\Asset');
+        });
+
+        $this->app['events']->listen('cache:cleared', function() use($app)
+        {
+            $app['artisan']->call('asset:dist');
         });
 	}
 
