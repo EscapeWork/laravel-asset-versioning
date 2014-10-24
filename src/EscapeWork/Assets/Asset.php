@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Application as App;
 use Illuminate\Config\Repository as Config;
+use Illuminate\Cache\Repository as Cache;
 
 class Asset
 {
@@ -16,10 +17,16 @@ class Asset
      */
     protected $config;
 
-    public function __construct(App $app, Config $config)
+    /**
+     * @var Illuminate\Cache\Repository
+     */
+    protected $cache;
+
+    public function __construct(App $app, Config $config, Cache $cache)
     {
         $this->app    = $app;
         $this->config = $config;
+        $this->cache  = $cache;
     }
 
     public function v($path)
@@ -33,7 +40,7 @@ class Asset
 
     public function replaceVersion($path)
     {
-        $version    = $this->config->get('laravel-asset-versioning::version');
+        $version    = $this->cache->get('laravel-asset-versioning.version');
         $file      = explode('.', $path);
         $extension = $file[count($file) - 1];
         $type      = $this->config->get('laravel-asset-versioning::types.' . $extension);

@@ -11,6 +11,7 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->config = m::mock('Illuminate\Config\Repository');
         $this->file   = m::mock('Illuminate\Filesystem\Filesystem');
+        $this->cache  = m::mock('Illuminate\Cache\Repository');
         $this->paths  = array('app' => '/home', 'public' => '/home/public');
     }
 
@@ -18,10 +19,9 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
     {
         $oldVersion = 1; $types = array();
 
-        $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::version')->andReturn($oldVersion);
         $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::types')->andReturn($types);
 
-        $command = m::mock('EscapeWork\Assets\Commands\AssetDistCommand[updateConfigVersion,deleteOldDirectories,createDistDirectories]', array($this->config, $this->file, $this->paths));
+        $command = m::mock('EscapeWork\Assets\Commands\AssetDistCommand[updateConfigVersion,deleteOldDirectories,createDistDirectories]', array($this->config, $this->file, $this->cache, $this->paths));
         $command->shouldReceive('updateConfigVersion')->once(m::any(), $oldVersion);
         $command->shouldReceive('deleteOldDirectories')->once()->with($types);
         $command->shouldReceive('createDistDirectories')->once($types, m::any());
@@ -31,27 +31,10 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
 
     public function test_update_config_version_with_published_config()
     {
-        $configPath = $this->paths['app'] . '/config/packages/escapework/laravel-asset-versioning/config.php';
+        $this->cache->shouldReceive('forever')->once()->with('laravel-asset-versioning.version', 2);
 
-        $this->file->shouldReceive('exists')->once()->with($configPath)->andReturn(true);
-        $this->file->shouldReceive('get')->once()->with($configPath)->andReturn('version=1');
-        $this->file->shouldReceive('put')->once()->with($configPath, 'version=2');
-
-        $command = new AssetDistCommand($this->config, $this->file, $this->paths);
-        $command->updateConfigVersion(2, 1);
-    }
-
-    public function test_update_config_version_with_unpublished_config()
-    {
-        $configPath = $this->paths['app'] . '/config/packages/escapework/laravel-asset-versioning/config.php';
-
-        $this->file->shouldReceive('exists')->once()->with($configPath)->andReturn(false);
-        $this->file->shouldReceive('get')->once()->with($configPath)->andReturn('version=1');
-        $this->file->shouldReceive('put')->once()->with($configPath, 'version=2');
-
-        $command = m::mock('EscapeWork\Assets\Commands\AssetDistCommand[call]', array($this->config, $this->file, $this->paths));
-        $command->shouldReceive('call')->once()->with('config:publish', array('package' => 'escapework/laravel-asset-versioning'));
-        $command->updateConfigVersion(2, 1);
+        $command = new AssetDistCommand($this->config, $this->file, $this->cache, $this->paths);
+        $command->updateConfigVersion(2);
     }
 
     public function test_delete_old_directories()
@@ -65,7 +48,7 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
         $this->file->shouldReceive('cleanDirectory')->once()->with($baseDir . $types['css']['dist_dir']);
         $this->file->shouldReceive('cleanDirectory')->once()->with($baseDir . $types['js']['dist_dir']);
 
-        $command = new AssetDistCommand($this->config, $this->file, $this->paths);
+        $command = new AssetDistCommand($this->config, $this->file, $this->cache, $this->paths);
         $command->deleteOldDirectories($types);
     }
 
@@ -88,7 +71,7 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
             $baseDir . $types['js']['dist_dir'] . '/2'
         );
 
-        $command = m::mock('EscapeWork\Assets\Commands\AssetDistCommand[info]', array($this->config, $this->file, $this->paths));
+        $command = m::mock('EscapeWork\Assets\Commands\AssetDistCommand[info]', array($this->config, $this->file, $this->cache, $this->paths));
         $command->shouldReceive('info')->times(2);
         $command->createDistDirectories($types, 2);
     }

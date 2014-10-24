@@ -1,6 +1,7 @@
 <?php namespace EscapeWork\Assets\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Cache\Repository as Cache;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Filesystem\Filesystem as File;
 use Symfony\Component\Console\Input\InputOption;
@@ -35,6 +36,11 @@ class AssetDistCommand extends Command
     protected $config;
 
     /**
+     * @var Illuminate\Cache\Repository
+     */
+    protected $cache;
+
+    /**
      * @var array
      */
     protected $paths;
@@ -49,12 +55,13 @@ class AssetDistCommand extends Command
      *
      * @return void
      */
-    public function __construct(Config $config, File $file, $paths)
+    public function __construct(Config $config, File $file, Cache $cache, $paths)
     {
         parent::__construct();
 
         $this->config = $config;
         $this->file   = $file;
+        $this->cache  = $cache;
         $this->paths  = $paths;
     }
 
@@ -65,33 +72,23 @@ class AssetDistCommand extends Command
      */
     public function fire()
     {
-        $types      = $this->config->get('laravel-asset-versioning::types');
-        $oldVersion = $this->config->get('laravel-asset-versioning::version');
-        $newVersion = Carbon::now()->timestamp;
+        $types   = $this->config->get('laravel-asset-versioning::types');
+        $version = Carbon::now()->timestamp;
 
-        $this->updateConfigVersion($newVersion, $oldVersion);
+        $this->updateConfigVersion($version);
         $this->deleteOldDirectories($types);
-        $this->createDistDirectories($types, $newVersion);
+        $this->createDistDirectories($types, $version);
     }
 
-    public function updateConfigVersion($newVersion, $oldVersion)
+    public function updateConfigVersion($version)
     {
-        $configPath = $this->paths['app'] . $this->configFileLocation;
-
-        if (! $this->file->exists($configPath)) {
-            $this->call('config:publish', array('package' => 'escapework/laravel-asset-versioning'));
-        }
-
-        $configFile    = $this->file->get($configPath);
-        $newConfigFile = str_replace($oldVersion, $newVersion, $configFile);
-
-        $this->file->put($configPath, $newConfigFile);
+        $this->cache->forever('laravel-asset-versioning.version', $version);
     }
 
     public function deleteOldDirectories($types)
     {
         foreach ($types as $type => $directories) {
-            $dir = $this->paths['public'].'/'.$directories['dist_dir'];
+            $dir = $this->paths['public'] . '/' . $directories['dist_dir'];
 
             $this->file->cleanDirectory($dir);
         }
@@ -128,5 +125,4 @@ class AssetDistCommand extends Command
     {
         return array();
     }
-
 }
