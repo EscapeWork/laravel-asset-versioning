@@ -17,15 +17,15 @@
     "require-dev": {
         "phpunit/phpunit": "@stable",
         "mockery/mockery": "@stable", 
-        "illuminate/support": "4.*",
-        "illuminate/console": "4.*",
-        "illuminate/filesystem": "4.*",
+        "illuminate/support": "~5",
+        "illuminate/console": "~5",
+        "illuminate/filesystem": "~5",
         "nesbot/carbon": "1.*"
     },
 
     "autoload": {
-        "psr-0": {
-            "EscapeWork\\Assets": "src/"
+        "psr-4": {
+            "EscapeWork\\Assets\\": "src/"
         }
     },
 
@@ -33,7 +33,7 @@
 
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1.*-dev"
+            "dev-master": "0.2.*-dev"
         }
     }
 }
