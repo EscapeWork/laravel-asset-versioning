@@ -10,10 +10,12 @@ Just edit your `composer.json` file. It might look something like:
 
 ```json
     "require": {
-        "laravel/framework": "4.1.*",
-        "escapework/laravel-asset-versioning": "0.1.*"
+        "laravel/framework": "~5.0",
+        "escapework/laravel-asset-versioning": "0.2.*"
     }
 ```
+
+For Laravel 4.2<, use the `0.1.*` version.
 
 Then, run the composer update command:
 
@@ -30,16 +32,10 @@ After that, you just need to add the following service provider to your app serv
 Publish the configurations running the following command:
 
 ```bash
-$ php artisan config:publish escapework/laravel-asset-versioning
+$ php artisan vendor:publish
 ```
 
-Make sure your Laravel app recognizes your local environment in the `bootstrap/start.php` file.
-
-```php
-$env = $app->detectEnvironment(array(
-    'local' => array('your-machine-name'),
-));
-```
+Make sure your Laravel app recognizes your local environment.
 
 ## Usage
 
@@ -71,27 +67,25 @@ This package knows which folder you need by the file extension, which is the arr
 
 ## Configurations
 
-Of course you can configure the folders you need. Just edit the `app/config/packages/escapework/laravel-asset-versioning/config.php` file, in the `types` array.
+Of course you can configure the folders you need. Just edit the `config/assets.php` file, in the `types` array.
 
 ```php
-    'types' => array(
-
-        'css' => array(
+    'types' => [
+        'css' => [
             'origin_dir' => 'your-custom-css-dir/css',
             'dist_dir'   => 'your-custom-css-dir/dist',
-        ),
+        ],
 
-        'js' => array(
+        'js' => [
             'origin_dir' => 'your-custom-js-dir/js',
             'dist_dir'   => 'your-custom-js-dir/dist',
-        ),
+        ],
 
-        'jpg' => array(
+        'jpg' => [
             'origin_dir' => 'assets/images',
             'dist_dir'   => 'assets/images/dist',
-        ),
-
-    ),
+        ],
+    ],
 ```
 
 You also can add more folders by adding more items in the array.
@@ -102,6 +96,10 @@ You also can add more folders by adding more items in the array.
 * Your ideia here.
 
 ### Changelog
+
+##### 0.2
+
+* Ready for Laravel 5.
 
 ##### 0.1.4
 

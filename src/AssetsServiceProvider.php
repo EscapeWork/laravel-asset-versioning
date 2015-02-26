@@ -24,7 +24,7 @@ class AssetsServiceProvider extends ServiceProvider
             __DIR__ . '/../config/assets.php', 'assets'
         );
     }
-    
+
     public function boot()
     {
         $app   = $this->app;
@@ -37,7 +37,7 @@ class AssetsServiceProvider extends ServiceProvider
 
         $this->app['escapework.asset.command'] = $this->app->share(function($app) use ($cache)
         {
-            return new Commands\AssetDistCommand($app['config'], $app['files'], $cache, array(
+            return new Console\AssetDistCommand($app['config'], $app['files'], $cache, array(
                 'app'    => app_path(),
                 'public' => public_path(),
             ));
@@ -45,12 +45,9 @@ class AssetsServiceProvider extends ServiceProvider
 
         $this->commands('escapework.asset.command');
 
-        $this->app->booting(function()
-        {
-            $loader = AliasLoader::getInstance();
-
-            $loader->alias('Asset', 'EscapeWork\Assets\Facades\Asset');
-        });
+        # alias loader
+        $loader = AliasLoader::getInstance();
+        $loader->alias('Asset', 'EscapeWork\Assets\Facades\Asset');
 
         $this->app['events']->listen('cache:cleared', function() use($app)
         {

@@ -43,7 +43,7 @@ class Asset
         $version    = $this->cache->get('laravel-asset-versioning.version');
         $file      = explode('.', $path);
         $extension = $file[count($file) - 1];
-        $type      = $this->config->get('laravel-asset-versioning::types.' . $extension);
+        $type      = $this->config->get('assets.types.' . $extension);
 
         if (! $type) {
             return $path;

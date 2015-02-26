@@ -72,7 +72,7 @@ class AssetDistCommand extends Command
      */
     public function fire()
     {
-        $types   = $this->config->get('laravel-asset-versioning::types');
+        $types   = $this->config->get('assets.types');
         $version = Carbon::now()->timestamp;
 
         $this->updateConfigVersion($version);
@@ -104,25 +104,5 @@ class AssetDistCommand extends Command
 
             $this->info($type . ' dist dir ('.$dist_dir.') successfully created!');
         }
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return array();
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return array();
     }
 }

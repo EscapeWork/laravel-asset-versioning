@@ -19,7 +19,7 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
     {
         $oldVersion = 1; $types = array();
 
-        $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::types')->andReturn($types);
+        $this->config->shouldReceive('get')->once()->with('assets.types')->andReturn($types);
 
         $command = m::mock('EscapeWork\Assets\Console\AssetDistCommand[updateConfigVersion,deleteOldDirectories,createDistDirectories]', array($this->config, $this->file, $this->cache, $this->paths));
         $command->shouldReceive('updateConfigVersion')->once(m::any(), $oldVersion);
