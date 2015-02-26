@@ -15,8 +15,8 @@ return [
         ],
 
         'js' => [
-            'origin_dir' => 'assets/javascript',
-            'dist_dir'   => 'assets/dist/javascript',
+            'origin_dir' => 'assets/js',
+            'dist_dir'   => 'assets/dist/js',
         ],
     ],
 ];
