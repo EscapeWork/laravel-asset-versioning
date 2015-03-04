@@ -7,11 +7,6 @@ class AssetsServiceProvider extends ServiceProvider
 {
 
     /**
-     * Indicates package root folder
-     */
-    const PACKAGE_ROOT = __DIR__ . '/..';
-
-    /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
@@ -27,6 +22,7 @@ class AssetsServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $root  = __DIR__ . '/..';
         $app   = $this->app;
         $cache = $this->getCacheDriver();
 
