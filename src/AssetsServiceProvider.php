@@ -52,7 +52,7 @@ class AssetsServiceProvider extends ServiceProvider
 
         # publiishing files
         $this->publishes([
-            self::PACKAGE_ROOT . '/config/assets.php'  => config_path('assets.php'),
+            $root . '/config/assets.php'  => config_path('assets.php'),
         ]);
     }
 
