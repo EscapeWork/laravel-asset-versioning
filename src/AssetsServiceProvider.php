@@ -2,6 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\AliasLoader;
+use Artisan;
 
 class AssetsServiceProvider extends ServiceProvider
 {
@@ -47,7 +48,7 @@ class AssetsServiceProvider extends ServiceProvider
 
         $this->app['events']->listen('cache:cleared', function() use($app)
         {
-            $app['artisan']->call('asset:dist');
+            Artisan::call('asset:dist');
         });
 
         # publiishing files
