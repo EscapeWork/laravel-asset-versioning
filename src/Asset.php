@@ -49,7 +49,7 @@ class Asset
             return $path;
         }
 
-        if (! preg_match('#^'.$type['origin_dir'].'#', $path)) {
+        if (! preg_match("#^\/?" . $type['origin_dir'] . "#", $path)) {
             return $path;
         }
 
