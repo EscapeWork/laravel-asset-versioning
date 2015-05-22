@@ -69,6 +69,39 @@ class AssetTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function test_path_method_in_local_environment()
+    {
+        $this->app->shouldReceive('environment')->andReturn('local');
+        $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::types.html')->andReturn(array(
+            'origin_dir' => 'templates'
+        ));
+
+        $asset = m::mock('EscapeWork\Assets\Asset[asset]', array($this->app, $this->config, $this->cache));
+        $asset->shouldReceive('asset')->once()->with('templates')->andReturn('templates');
+
+        $this->assertEquals(
+            $asset->path('html'), 
+            'templates'
+        );
+    }
+
+    public function test_path_method_in_production_environment()
+    {
+        $this->app->shouldReceive('environment')->andReturn('production');
+        $this->cache->shouldReceive('get')->once()->with('laravel-asset-versioning.version')->andReturn('12345');
+        $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::types.html')->andReturn(array(
+            'dist_dir' => 'templates/dist'
+        ));
+
+        $asset = m::mock('EscapeWork\Assets\Asset[asset]', array($this->app, $this->config, $this->cache));
+        $asset->shouldReceive('asset')->once()->with('templates/dist')->andReturn('templates/dist');
+        
+        $this->assertEquals(
+            $asset->path('html'), 
+            'templates/dist/12345'
+        );
+    }
+
     public function tearDown()
     {
         m::close();

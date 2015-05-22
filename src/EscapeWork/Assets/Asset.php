@@ -38,6 +38,17 @@ class Asset
         return $this->asset($this->replaceVersion($path));
     }
 
+    public function path($extension)
+    {
+        $type    = $this->config->get('laravel-asset-versioning::types.' . $extension);
+
+        if ($this->app->environment() == 'local') {
+            return $this->asset($type['origin_dir']);
+        }
+
+        return $this->asset($type['dist_dir']) . '/' . $this->cache->get('laravel-asset-versioning.version');
+    }
+
     public function replaceVersion($path)
     {
         $version    = $this->cache->get('laravel-asset-versioning.version');
