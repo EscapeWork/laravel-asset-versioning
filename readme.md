@@ -65,6 +65,12 @@ The version is the timestamp when you performed the `asset:dist` command.
 
 This package knows which folder you need by the file extension, which is the array key in the config file.
 
+You also can get only the path for some extension:
+
+```
+{{ Asset::path('css') }} <!-- /assets/stylesheets/dist/1392745827 -->
+```
+
 ## Configurations
 
 Of course you can configure the folders you need. Just edit the `config/assets.php` file, in the `types` array.
