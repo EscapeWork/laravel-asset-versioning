@@ -98,6 +98,11 @@ Also, you can configure in which environments the assets are gonna be versioned.
 
 ### Changelog
 
+##### 0.3
+
+* Now it created a symlink instead copying directories. [#3](https://github.com/EscapeWork/laravel-asset-versioning/issues/3);
+* Added a `environments` option to configure which environments should version. [#4](https://github.com/EscapeWork/laravel-asset-versioning/issues/4);
+
 ##### 0.2
 
 * Ready for Laravel 5.
