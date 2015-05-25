@@ -31,7 +31,7 @@ class Asset
 
     public function v($path)
     {
-        if ($this->app->environment() == 'local') {
+        if (! in_array($this->app->environment(), $this->config->get('laravel-asset-versioning::environments'))) {
             return $this->asset($path);
         }
 
