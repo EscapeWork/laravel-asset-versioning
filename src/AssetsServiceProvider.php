@@ -34,7 +34,7 @@ class AssetsServiceProvider extends ServiceProvider
 
         $this->app['escapework.asset.command'] = $this->app->share(function($app) use ($cache)
         {
-            return new Console\AssetDistCommand($app['config'], $app['files'], $cache, array(
+            return new Console\AssetDistCommand($app['config'], new SymLinker, $cache, array(
                 'app'    => app_path(),
                 'public' => public_path(),
             ));
