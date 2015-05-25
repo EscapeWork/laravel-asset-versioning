@@ -14,25 +14,17 @@ $ composer require escapework/laravel-asset-versioning:"0.3.*"
 
 For Laravel 4.2<, use the `0.1.*` version. **PS:** Please note that no all features are available in `0.1` version.
 
-Then, run the composer update command:
-
-```bash
-$ composer update
-```
-
 After that, you just need to add the following service provider to your app service providers. Open the file `app/config/app.php` and add this line:
 
 ```php
 'EscapeWork\Assets\AssetsServiceProvider'
 ```
 
-Publish the configurations running the following command:
+And publish the configurations running the following command:
 
 ```bash
 $ php artisan vendor:publish
 ```
-
-Make sure your Laravel app recognizes your local environment.
 
 ## Usage
 
