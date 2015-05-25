@@ -10,12 +10,11 @@ Just edit your `composer.json` file. It might look something like:
 
 ```json
     "require": {
-        "laravel/framework": "~5.0",
-        "escapework/laravel-asset-versioning": "0.2.*"
+        "escapework/laravel-asset-versioning": "0.3.*"
     }
 ```
 
-For Laravel 4.2<, use the `0.1.*` version.
+For Laravel 4.2<, use the `0.1.*` version. **PS:** Please note that no all features are available in `0.1` version.
 
 Then, run the composer update command:
 
@@ -26,7 +25,7 @@ $ composer update
 After that, you just need to add the following service provider to your app service providers. Open the file `app/config/app.php` and add this line:
 
 ```php
-    'EscapeWork\Assets\AssetsServiceProvider'
+'EscapeWork\Assets\AssetsServiceProvider'
 ```
 
 Publish the configurations running the following command:
@@ -76,22 +75,22 @@ You also can get only the path for some extension:
 Of course you can configure the folders you need. Just edit the `config/assets.php` file, in the `types` array.
 
 ```php
-    'types' => [
-        'css' => [
-            'origin_dir' => 'your-custom-css-dir/css',
-            'dist_dir'   => 'your-custom-css-dir/dist',
-        ],
-
-        'js' => [
-            'origin_dir' => 'your-custom-js-dir/js',
-            'dist_dir'   => 'your-custom-js-dir/dist',
-        ],
-
-        'jpg' => [
-            'origin_dir' => 'assets/images',
-            'dist_dir'   => 'assets/images/dist',
-        ],
+'types' => [
+    'css' => [
+        'origin_dir' => 'your-custom-css-dir/css',
+        'dist_dir'   => 'your-custom-css-dir/dist',
     ],
+
+    'js' => [
+        'origin_dir' => 'your-custom-js-dir/js',
+        'dist_dir'   => 'your-custom-js-dir/dist',
+    ],
+
+    'jpg' => [
+        'origin_dir' => 'assets/images',
+        'dist_dir'   => 'assets/images/dist',
+    ],
+],
 ```
 
 You also can add more folders by adding more items into the array.
@@ -99,7 +98,7 @@ You also can add more folders by adding more items into the array.
 Also, you can configure in which environments the assets are gonna be versioned.
 
 ```php
-    'environments' => ['production'],
+'environments' => ['production'],
 ```
 
 ### Next steps
