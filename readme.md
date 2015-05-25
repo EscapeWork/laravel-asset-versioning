@@ -6,12 +6,10 @@ Have you ever had a problem with cache in your assets? This package may help you
 
 ## Installation
 
-Just edit your `composer.json` file. It might look something like:
+Via Composer:
 
-```json
-    "require": {
-        "escapework/laravel-asset-versioning": "0.3.*"
-    }
+```
+$ composer require escapework/laravel-asset-versioning:"0.3.*"
 ```
 
 For Laravel 4.2<, use the `0.1.*` version. **PS:** Please note that no all features are available in `0.1` version.
