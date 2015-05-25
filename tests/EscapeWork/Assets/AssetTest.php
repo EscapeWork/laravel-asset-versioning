@@ -18,7 +18,7 @@ class AssetTest extends \PHPUnit_Framework_TestCase
         $asset = m::mock('EscapeWork\Assets\Asset[asset]', array($this->app, $this->config, $this->cache));
 
         $this->app->shouldReceive('environment')->once()->withNoArgs()->andReturn('local');
-        $this->config->shouldReceive('get')->with('laravel-asset-versioning::environments')->andReturn(['prodution']);
+        $this->config->shouldReceive('get')->with('assets.environments')->andReturn(['prodution']);
         $asset->shouldReceive('asset')->once()->with($css)->andReturn('/' . $css);
 
         $this->assertEquals('/' . $css, $asset->v($css));
@@ -30,7 +30,7 @@ class AssetTest extends \PHPUnit_Framework_TestCase
         $asset = m::mock('EscapeWork\Assets\Asset[replaceVersion,asset]', array($this->app, $this->config, $this->cache));
 
         $this->app->shouldReceive('environment')->once()->withNoArgs()->andReturn('production');
-        $this->config->shouldReceive('get')->with('laravel-asset-versioning::environments')->andReturn(['production']);
+        $this->config->shouldReceive('get')->with('assets.environments')->andReturn(['production']);
         $asset->shouldReceive('replaceVersion')->once()->with($css)->andReturn('assets/stylesheets/dist/12345/main.css');
         $asset->shouldReceive('asset')->once()->with('assets/stylesheets/dist/12345/main.css')->andReturn('/assets/stylesheets/dist/12345/main.css');
 
@@ -74,7 +74,7 @@ class AssetTest extends \PHPUnit_Framework_TestCase
      public function test_path_method_in_local_environment()
     {
         $this->app->shouldReceive('environment')->andReturn('local');
-        $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::types.html')->andReturn(array(
+        $this->config->shouldReceive('get')->once()->with('assets.types.html')->andReturn(array(
             'origin_dir' => 'templates'
         ));
         $asset = m::mock('EscapeWork\Assets\Asset[asset]', array($this->app, $this->config, $this->cache));
@@ -88,7 +88,7 @@ class AssetTest extends \PHPUnit_Framework_TestCase
     {
         $this->app->shouldReceive('environment')->andReturn('production');
         $this->cache->shouldReceive('get')->once()->with('laravel-asset-versioning.version')->andReturn('12345');
-        $this->config->shouldReceive('get')->once()->with('laravel-asset-versioning::types.html')->andReturn(array(
+        $this->config->shouldReceive('get')->once()->with('assets.types.html')->andReturn(array(
             'dist_dir' => 'templates/dist'
         ));
         $asset = m::mock('EscapeWork\Assets\Asset[asset]', array($this->app, $this->config, $this->cache));

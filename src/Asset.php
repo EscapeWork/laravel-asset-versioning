@@ -31,7 +31,7 @@ class Asset
 
     public function v($path)
     {
-        if (! in_array($this->app->environment(), $this->config->get('laravel-asset-versioning::environments'))) {
+        if (! in_array($this->app->environment(), $this->config->get('assets.environments'))) {
             return $this->asset($path);
         }
 
@@ -40,7 +40,7 @@ class Asset
 
     public function path($extension)
     {
-        $type    = $this->config->get('laravel-asset-versioning::types.' . $extension);
+        $type    = $this->config->get('assets.types.' . $extension);
         if ($this->app->environment() == 'local') {
             return $this->asset($type['origin_dir']);
         }
