@@ -1,9 +1,9 @@
 <?php namespace EscapeWork\Assets\Console;
 
+use EscapeWork\Assets\SymLinker;
 use Illuminate\Console\Command;
 use Illuminate\Cache\Repository as Cache;
 use Illuminate\Config\Repository as Config;
-use Illuminate\Filesystem\Filesystem as File;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Carbon\Carbon;
@@ -26,9 +26,9 @@ class AssetDistCommand extends Command
     protected $description = 'Create a dist folder for your assets to avoid cache';
 
     /**
-     * @var Illuminate\Filesystem\Filesystem
+     * @var EscapeWork\Assets\SymLinker
      */
-    protected $file;
+    protected $linker;
 
     /**
      * @var Illuminate\Config\Repository
@@ -46,21 +46,16 @@ class AssetDistCommand extends Command
     protected $paths;
 
     /**
-     * Config file location
-     */
-    protected $configFileLocation = '/config/packages/escapework/laravel-asset-versioning/config.php';
-
-    /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(Config $config, File $file, Cache $cache, $paths)
+    public function __construct(Config $config, SymLinker $linker, Cache $cache, $paths)
     {
         parent::__construct();
 
         $this->config = $config;
-        $this->file   = $file;
+        $this->linker = $linker;
         $this->cache  = $cache;
         $this->paths  = $paths;
     }
@@ -72,11 +67,12 @@ class AssetDistCommand extends Command
      */
     public function fire()
     {
-        $types   = $this->config->get('assets.types');
-        $version = Carbon::now()->timestamp;
+        $types      = $this->config->get('assets.types');
+        $oldVersion = $this->cache->get('laravel-asset-versioning.version');
+        $version    = Carbon::now()->timestamp;
 
         $this->updateConfigVersion($version);
-        $this->deleteOldDirectories($types);
+        $this->unlinkOldDirectories($types, $oldVersion);
         $this->createDistDirectories($types, $version);
     }
 
@@ -85,12 +81,12 @@ class AssetDistCommand extends Command
         $this->cache->forever('laravel-asset-versioning.version', $version);
     }
 
-    public function deleteOldDirectories($types)
+    public function unlinkOldDirectories($types, $oldVersion)
     {
         foreach ($types as $type => $directories) {
-            $dir = $this->paths['public'] . '/' . $directories['dist_dir'];
+            $dir = $this->paths['public'] . '/' . $directories['dist_dir'] . '/' . $oldVersion;
 
-            $this->file->cleanDirectory($dir);
+            $this->linker->unlink($dir);
         }
     }
 
@@ -100,8 +96,7 @@ class AssetDistCommand extends Command
             $origin_dir = $this->paths['public'].'/'.$directories['origin_dir'];
             $dist_dir   = $this->paths['public'].'/'.$directories['dist_dir'].'/'.$version;
 
-            $this->file->copyDirectory($origin_dir, $dist_dir);
-
+            $this->linker->link($origin_dir, $dist_dir);
             $this->info($type . ' dist dir ('.$dist_dir.') successfully created!');
         }
     }

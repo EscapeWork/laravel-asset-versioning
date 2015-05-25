@@ -5,12 +5,12 @@ use Mockery as m;
 class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
 {
 
-    protected $config, $file, $app_path;
+    protected $config, $linker, $app_path;
 
     public function setUp()
     {
         $this->config = m::mock('Illuminate\Config\Repository');
-        $this->file   = m::mock('Illuminate\Filesystem\Filesystem');
+        $this->linker = m::mock('EscapeWork\Assets\SymLinker');
         $this->cache  = m::mock('Illuminate\Cache\Repository');
         $this->paths  = array('app' => '/home', 'public' => '/home/public');
     }
@@ -20,10 +20,11 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
         $oldVersion = 1; $types = array();
 
         $this->config->shouldReceive('get')->once()->with('assets.types')->andReturn($types);
+        $this->cache->shouldReceive('get')->once()->with('laravel-asset-versioning.version')->andReturn('12345');
 
-        $command = m::mock('EscapeWork\Assets\Console\AssetDistCommand[updateConfigVersion,deleteOldDirectories,createDistDirectories]', array($this->config, $this->file, $this->cache, $this->paths));
+        $command = m::mock('EscapeWork\Assets\Console\AssetDistCommand[updateConfigVersion,unlinkOldDirectories,createDistDirectories]', array($this->config, $this->linker, $this->cache, $this->paths));
         $command->shouldReceive('updateConfigVersion')->once(m::any(), $oldVersion);
-        $command->shouldReceive('deleteOldDirectories')->once()->with($types);
+        $command->shouldReceive('unlinkOldDirectories')->once()->with($types, '12345');
         $command->shouldReceive('createDistDirectories')->once($types, m::any());
 
         $command->fire();
@@ -33,11 +34,11 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->cache->shouldReceive('forever')->once()->with('laravel-asset-versioning.version', 2);
 
-        $command = new AssetDistCommand($this->config, $this->file, $this->cache, $this->paths);
+        $command = new AssetDistCommand($this->config, $this->linker, $this->cache, $this->paths);
         $command->updateConfigVersion(2);
     }
 
-    public function test_delete_old_directories()
+    public function test_unlink_old_directories()
     {
         $types = array(
             'css' => array('origin_dir' => 'assets/stylesheets/css', 'dist_dir' => 'assets/stylesheets/dist'),
@@ -45,11 +46,11 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
         );
 
         $baseDir = $this->paths['public'].'/';
-        $this->file->shouldReceive('cleanDirectory')->once()->with($baseDir . $types['css']['dist_dir']);
-        $this->file->shouldReceive('cleanDirectory')->once()->with($baseDir . $types['js']['dist_dir']);
+        $this->linker->shouldReceive('unlink')->once()->with($baseDir . $types['css']['dist_dir'] . '/12345');
+        $this->linker->shouldReceive('unlink')->once()->with($baseDir . $types['js']['dist_dir'] . '/12345');
 
-        $command = new AssetDistCommand($this->config, $this->file, $this->cache, $this->paths);
-        $command->deleteOldDirectories($types);
+        $command = new AssetDistCommand($this->config, $this->linker, $this->cache, $this->paths);
+        $command->unlinkOldDirectories($types, '12345');
     }
 
     public function test_create_dist_directories()
@@ -61,17 +62,17 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
 
         $baseDir = $this->paths['public'].'/';
 
-        $this->file->shouldReceive('copyDirectory')->once()->with(
+        $this->linker->shouldReceive('link')->once()->with(
             $baseDir . $types['css']['origin_dir'],
             $baseDir . $types['css']['dist_dir'] . '/2'
         );
 
-        $this->file->shouldReceive('copyDirectory')->once()->with(
+        $this->linker->shouldReceive('link')->once()->with(
             $baseDir . $types['js']['origin_dir'],
             $baseDir . $types['js']['dist_dir'] . '/2'
         );
 
-        $command = m::mock('EscapeWork\Assets\Console\AssetDistCommand[info]', array($this->config, $this->file, $this->cache, $this->paths));
+        $command = m::mock('EscapeWork\Assets\Console\AssetDistCommand[info]', array($this->config, $this->linker, $this->cache, $this->paths));
         $command->shouldReceive('info')->times(2);
         $command->createDistDirectories($types, 2);
     }
