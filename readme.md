@@ -94,7 +94,13 @@ Of course you can configure the folders you need. Just edit the `config/assets.p
     ],
 ```
 
-You also can add more folders by adding more items in the array.
+You also can add more folders by adding more items into the array.
+
+Also, you can configure in which environments the assets are gonna be versioned.
+
+```
+    'environments' => ['production'],
+```
 
 ### Next steps
 
