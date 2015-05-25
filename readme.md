@@ -98,7 +98,7 @@ You also can add more folders by adding more items into the array.
 
 Also, you can configure in which environments the assets are gonna be versioned.
 
-```
+```php
     'environments' => ['production'],
 ```
 
