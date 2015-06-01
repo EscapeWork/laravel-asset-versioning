@@ -9,7 +9,11 @@ class SymLinker
     {
         $base_dir = explode('/', $link);
         array_pop($base_dir);
-        File::makeDirectory(implode('/', $base_dir), 0755, true);
+        $base_dir = implode('/', $base_dir);
+
+        if (! is_dir($base_dir)) {
+            File::makeDirectory($base_dir, 0755, true);
+        }
 
         if (is_dir($target)) {
             symlink($target, $link);
