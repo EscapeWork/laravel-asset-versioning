@@ -1,4 +1,6 @@
-<?php namespace EscapeWork\Assets\Facades;
+<?php 
+
+namespace EscapeWork\Assets\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

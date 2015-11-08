@@ -1,4 +1,6 @@
-<?php namespace EscapeWork\Assets\Console;
+<?php 
+
+namespace EscapeWork\Assets\Console;
 
 use EscapeWork\Assets\SymLinker;
 use Illuminate\Console\Command;
@@ -83,6 +85,10 @@ class AssetDistCommand extends Command
 
     public function unlinkOldDirectories($types, $oldVersion)
     {
+        if (! $oldVersion) {
+            return;
+        }
+        
         foreach ($types as $type => $directories) {
             $dir = $this->paths['public'] . '/' . $directories['dist_dir'] . '/' . $oldVersion;
 

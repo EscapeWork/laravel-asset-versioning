@@ -1,4 +1,6 @@
-<?php namespace EscapeWork\Assets;
+<?php 
+
+namespace EscapeWork\Assets;
 
 use File;
 

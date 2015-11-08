@@ -1,4 +1,6 @@
-<?php namespace EscapeWork\Assets;
+<?php 
+
+namespace EscapeWork\Assets;
 
 use Illuminate\Foundation\Application as App;
 use Illuminate\Config\Repository as Config;
@@ -40,10 +42,12 @@ class Asset
 
     public function path($extension)
     {
-        $type    = $this->config->get('assets.types.' . $extension);
+        $type = $this->config->get('assets.types.' . $extension);
+
         if ($this->app->environment() == 'local') {
             return $this->asset($type['origin_dir']);
         }
+        
         return $this->asset($type['dist_dir']) . '/' . $this->cache->get('laravel-asset-versioning.version');
     }
 
