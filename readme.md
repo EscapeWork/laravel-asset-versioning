@@ -74,6 +74,14 @@ protected $middleware = [
 
 And that's it, your response will come with the `Link` HTTP header.
 
+If you want to add some assets that are not versioned, you can use this method: 
+
+```php
+Asset::addHTTP2Link('/assets/fonts/robotto.woff', 'font');
+Asset::addHTTP2Link('/assets/css/home.css', 'css');
+Asset::addHTTP2Link('/assets/js/home.js', 'js');
+```
+
 ## Configurations
 
 Of course you can configure the folders you need. Just edit the `config/assets.php` file, in the `types` array.

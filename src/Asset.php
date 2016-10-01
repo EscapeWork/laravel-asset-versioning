@@ -34,8 +34,9 @@ class Asset
      * @var array
      */
     protected $http2Types = [
-        'css' => 'style',
-        'js'  => 'script',
+        'css'  => 'style',
+        'js'   => 'script',
+        'font' => 'font',
     ];
 
     public function __construct(App $app, Config $config, Cache $cache)
@@ -81,8 +82,8 @@ class Asset
             return $path;
         }
 
-        $resource      = str_replace($type['origin_dir'], $type['dist_dir'].'/' . $version, $path);
-        $this->links[] = ['resource' => $resource, 'type' => $extension];
+        $resource = str_replace($type['origin_dir'], $type['dist_dir'].'/' . $version, $path);
+        $this->addHTTP2Link($resource, $extension);
 
         return $resource;
     }
@@ -111,5 +112,10 @@ class Asset
     public function hasHTTP2Links()
     {
         return $this->links->count() > 0;
+    }
+
+    public function addHTTP2Link($resource, $type)
+    {
+        $this->links[] = ['resource' => $resource, 'type' => $type];
     }
 }
