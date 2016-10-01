@@ -1,6 +1,12 @@
-<?php namespace EscapeWork\Assets;
+<?php 
+
+namespace EscapeWork\Assets;
 
 use Mockery as m;
+
+function asset($asset) {
+    return $asset;
+}
 
 class AssetTest extends \PHPUnit_Framework_TestCase
 {
@@ -84,6 +90,7 @@ class AssetTest extends \PHPUnit_Framework_TestCase
             'templates'
         );
     }
+
     public function test_path_method_in_production_environment()
     {
         $this->app->shouldReceive('environment')->andReturn('production');
@@ -91,6 +98,7 @@ class AssetTest extends \PHPUnit_Framework_TestCase
         $this->config->shouldReceive('get')->once()->with('assets.types.html')->andReturn(array(
             'dist_dir' => 'templates/dist'
         ));
+
         $asset = m::mock('EscapeWork\Assets\Asset[asset]', array($this->app, $this->config, $this->cache));
         $asset->shouldReceive('asset')->once()->with('templates/dist')->andReturn('templates/dist');
         
@@ -98,6 +106,29 @@ class AssetTest extends \PHPUnit_Framework_TestCase
             $asset->path('html'), 
             'templates/dist/12345'
         );
+    }
+
+    public function test_generation_of_http2_links()
+    {
+        $this->app->shouldReceive('environment')->andReturn('production');
+        $this->config->shouldReceive('get')->times(2)->with('assets.environments')->andReturn(['production']);
+        $this->cache->shouldReceive('get')->times(2)->with('laravel-asset-versioning.version')->andReturn('12345');
+        $this->config->shouldReceive('get')->once()->with('assets.types.css')->andReturn([
+            'origin_dir' => 'assets/css',
+            'dist_dir'   => 'assets/dist/css'
+        ]);
+
+        $this->config->shouldReceive('get')->once()->with('assets.types.js')->andReturn([
+            'origin_dir' => 'assets/js',
+            'dist_dir'   => 'assets/dist/js'
+        ]);
+
+        $asset = new Asset($this->app, $this->config, $this->cache);
+        $asset->v('assets/css/main.css');
+        $asset->v('assets/js/main.js');
+        $links = $asset->generateHTTP2Links();
+
+        $this->assertEquals($links, '<assets/dist/css/12345/main.css>; rel=preload; as=style,<assets/dist/js/12345/main.js>; rel=preload; as=script');
     }
 
     public function tearDown()

@@ -9,7 +9,7 @@ Have you ever had a problem with cache in your assets? This package may help you
 Via Composer:
 
 ```
-$ composer require escapework/laravel-asset-versioning:"0.3.*"
+$ composer require escapework/laravel-asset-versioning:"0.4.*"
 ```
 
 For Laravel 4.2<, use the `0.1.*` version. **PS:** Please note that no all features are available in `0.1` version.
@@ -17,13 +17,13 @@ For Laravel 4.2<, use the `0.1.*` version. **PS:** Please note that no all featu
 After that, you just need to add the following service provider to your app service providers. Open the file `app/config/app.php` and add this line:
 
 ```php
-'EscapeWork\Assets\AssetsServiceProvider'
+    EscapeWork\Assets\AssetsServiceProvider::class
 ```
 
 And publish the configurations running the following command:
 
 ```bash
-$ php artisan vendor:publish
+$ php artisan vendor:publish --provider="EscapeWork\Assets\AssetsServiceProvider"
 ```
 
 ## Usage
@@ -58,6 +58,18 @@ You also can get only the path for some extension:
 
 ```
 {{ Asset::path('css') }} <!-- /assets/stylesheets/dist/1392745827 -->
+```
+
+### HTTP2 Server Push
+
+You can also enable the HTTP2 Server Push header for all assets used with this package.
+
+For that, you need to add the `HTTP2ServerPush` to the middlewares of your application.
+
+```php
+protected $middleware = [
+    \EscapeWork\Assets\Middleware\HTTP2ServerPush::class,
+];
 ```
 
 ## Configurations
@@ -98,19 +110,7 @@ Also, you can configure in which environments the assets are gonna be versioned.
 
 ### Changelog
 
-##### 0.3
-
-* Added a `Asset::path()` method to know the dist path for some extension (Backported to `0.2` and `0.1`);
-* Now it created a symlink instead copying directories. [#3](https://github.com/EscapeWork/laravel-asset-versioning/issues/3);
-* Added a `environments` option to configure which environments should version. [#4](https://github.com/EscapeWork/laravel-asset-versioning/issues/4);
-
-##### 0.2
-
-* Ready for Laravel 5.
-
-##### 0.1.4
-
-* Added a new check to verify if the asset path starts with the origin_dir config;
+See [Changelog](https://github.com/EscapeWork/laravel-asset-versioning/blob/master/changelog.md).
 
 ### Unit tests
 
