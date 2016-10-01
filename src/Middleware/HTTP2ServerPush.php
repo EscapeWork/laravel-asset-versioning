@@ -1,6 +1,6 @@
 <?php
 
-namespace EscapeWork\Assets;
+namespace EscapeWork\Assets\Middleware;
 
 use Closure;
 use EscapeWork\Assets\Facades\Asset;
@@ -35,15 +35,5 @@ class HTTP2ServerPush
         if (config('assets.http2-server-push') && Asset::hasHTTP2Links()) {
             $this->response->headers->set('Link', Asset::generateHTTP2Links(), false);
         }
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return bool
-     */
-    protected function shouldUseServerPush(Request $request) : bool
-    {
-        return ! $request->ajax();
     }
 }

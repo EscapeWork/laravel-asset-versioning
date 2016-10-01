@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace EscapeWork\Assets;
 
@@ -62,7 +62,7 @@ class Asset
         if ($this->app->environment() == 'local') {
             return $this->asset($type['origin_dir']);
         }
-        
+
         return $this->asset($type['dist_dir']) . '/' . $this->cache->get('laravel-asset-versioning.version');
     }
 
@@ -95,7 +95,7 @@ class Asset
     public function generateHTTP2Links()
     {
         return $this->links->map(function($link) {
-            return '<'.$link['resource'].'>; rel=preload; as='.$this->http2Type($link['type']);
+            return '<'.$this->asset($link['resource']).'>; rel=preload; as='.$this->http2Type($link['type']);
         })->implode(',');
     }
 
