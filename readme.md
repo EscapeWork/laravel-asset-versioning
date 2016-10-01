@@ -72,6 +72,8 @@ protected $middleware = [
 ];
 ```
 
+And that's it, your response will come with the `Link` HTTP header.
+
 ## Configurations
 
 Of course you can configure the folders you need. Just edit the `config/assets.php` file, in the `types` array.
@@ -103,18 +105,13 @@ Also, you can configure in which environments the assets are gonna be versioned.
 'environments' => ['production'],
 ```
 
-### Next steps
-
-* Add a method to enable multiple extensions in the same folder: Example: `jpg|png|gif' => array(...)`;
-* Your ideia here.
-
 ### Changelog
 
 See [Changelog](https://github.com/EscapeWork/laravel-asset-versioning/blob/master/changelog.md).
 
 ### Unit tests
 
-To run the PHPUnit unit tests, clone this repository, install the dependencies with `composer install --dev` and run `vendor/bin/phpunit`.
+Just run `vendor/bin/phpunit`.
 
 ## License
 
