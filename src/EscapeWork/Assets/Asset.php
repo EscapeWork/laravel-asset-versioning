@@ -31,7 +31,7 @@ class Asset
 
     public function v($path)
     {
-        if ($this->app->environment() == 'local') {
+        if ($this->app->environment() == 'locsal') {
             return $this->asset($path);
         }
 
@@ -54,17 +54,25 @@ class Asset
         $version    = $this->cache->get('laravel-asset-versioning.version');
         $file      = explode('.', $path);
         $extension = $file[count($file) - 1];
-        $type      = $this->config->get('laravel-asset-versioning::types.' . $extension);
+        $types     = $this->config->get('laravel-asset-versioning::types.' . $extension);
 
-        if (! $type) {
-            return $path;
+        if (isset($types['origin_dir'])) {
+            $types = [$types];
         }
 
-        if (! preg_match('#^'.$type['origin_dir'].'#', $path)) {
-            return $path;
+        foreach ($types as $type) {
+            if (! $type) {
+                continue;
+            }
+
+            if (! preg_match('#^'.$type['origin_dir'].'#', $path)) {
+                continue;
+            }
+
+            return str_replace($type['origin_dir'], $type['dist_dir'].'/' . $version, $path);
         }
 
-        return str_replace($type['origin_dir'], $type['dist_dir'].'/' . $version, $path);
+        return $path;
     }
 
     public function asset($path)

@@ -88,21 +88,33 @@ class AssetDistCommand extends Command
     public function deleteOldDirectories($types)
     {
         foreach ($types as $type => $directories) {
-            $dir = $this->paths['public'] . '/' . $directories['dist_dir'];
+            if (isset($directories['origin_dir'])) {
+                $directories = [$directories];
+            }
 
-            $this->file->cleanDirectory($dir);
+            foreach ($directories as $directory) {
+                $dir = $this->paths['public'] . '/' . $directory['dist_dir'];
+
+                $this->file->cleanDirectory($dir);
+            }
         }
     }
 
     public function createDistDirectories($types, $version)
     {
         foreach ($types as $type => $directories) {
-            $origin_dir = $this->paths['public'].'/'.$directories['origin_dir'];
-            $dist_dir   = $this->paths['public'].'/'.$directories['dist_dir'].'/'.$version;
+            if (isset($directories['origin_dir'])) {
+                $directories = [$directories];
+            }
 
-            $this->file->copyDirectory($origin_dir, $dist_dir);
+            foreach ($directories as $directory) {
+                $origin_dir = $this->paths['public'].'/'.$directory['origin_dir'];
+                $dist_dir   = $this->paths['public'].'/'.$directory['dist_dir'].'/'.$version;
 
-            $this->info($type . ' dist dir ('.$dist_dir.') successfully created!');
+                $this->file->copyDirectory($origin_dir, $dist_dir);
+
+                $this->info($type . ' dist dir ('.$dist_dir.') successfully created!');
+            }
         }
     }
 
