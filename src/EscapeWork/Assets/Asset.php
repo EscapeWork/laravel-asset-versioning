@@ -31,7 +31,7 @@ class Asset
 
     public function v($path)
     {
-        if ($this->app->environment() == 'locsal') {
+        if ($this->app->environment() == 'local') {
             return $this->asset($path);
         }
 
