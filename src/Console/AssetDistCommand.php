@@ -12,7 +12,6 @@ use Carbon\Carbon;
 
 class AssetDistCommand extends Command
 {
-
     /**
      * The console command name.
      *
@@ -90,20 +89,32 @@ class AssetDistCommand extends Command
         }
         
         foreach ($types as $type => $directories) {
-            $dir = $this->paths['public'] . '/' . $directories['dist_dir'] . '/' . $oldVersion;
+            if (isset($directories['origin_dir'])) {
+                $directories = [$directories];
+            }
 
-            $this->linker->unlink($dir);
+            foreach ($directories as $directory) {
+                $dir = $this->paths['public'] . '/' . $directory['dist_dir'] . '/' . $oldVersion;
+
+                $this->linker->unlink($dir);
+            }
         }
     }
 
     public function createDistDirectories($types, $version)
     {
         foreach ($types as $type => $directories) {
-            $origin_dir = $this->paths['public'].'/'.$directories['origin_dir'];
-            $dist_dir   = $this->paths['public'].'/'.$directories['dist_dir'].'/'.$version;
+            if (isset($directories['origin_dir'])) {
+                $directories = [$directories];
+            }
 
-            $this->linker->link($origin_dir, $dist_dir);
-            $this->info($type . ' dist dir ('.$dist_dir.') successfully created!');
+            foreach ($directories as $directory) {
+                $origin_dir = $this->paths['public'].'/'.$directory['origin_dir'];
+                $dist_dir   = $this->paths['public'].'/'.$directory['dist_dir'].'/'.$version;
+
+                $this->linker->link($origin_dir, $dist_dir);
+                $this->info($type . ' dist dir ('.$dist_dir.') successfully created!');
+            }
         }
     }
 }

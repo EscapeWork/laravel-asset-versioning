@@ -9,7 +9,7 @@ Have you ever had a problem with cache in your assets? This package may help you
 Via Composer:
 
 ```
-$ composer require escapework/laravel-asset-versioning:"0.4.*"
+$ composer require escapework/laravel-asset-versioning:"0.5.*"
 ```
 
 For Laravel 4.2<, use the `0.1.*` version. **PS:** Please note that no all features are available in `0.1` version.

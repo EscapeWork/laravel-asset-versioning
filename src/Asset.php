@@ -72,20 +72,28 @@ class Asset
         $version    = $this->cache->get('laravel-asset-versioning.version');
         $file      = explode('.', $path);
         $extension = $file[count($file) - 1];
-        $type      = $this->config->get('assets.types.' . $extension);
+        $types     = $this->config->get('assets.types.' . $extension);
 
-        if (! $type) {
-            return $path;
+        if (isset($types['origin_dir'])) {
+            $types = [$types];
         }
 
-        if (! preg_match("#^\/?" . $type['origin_dir'] . "#", $path)) {
-            return $path;
+        foreach ((array) $types as $type) {
+            if (! $type) {
+                continue;
+            }
+
+            if (! preg_match("#^\/?" . $type['origin_dir'] . "#", $path)) {
+                continue;
+            }
+
+            $resource = str_replace($type['origin_dir'], $type['dist_dir'].'/' . $version, $path);
+            $this->addHTTP2Link($resource, $extension);
+
+            return $resource;
         }
 
-        $resource = str_replace($type['origin_dir'], $type['dist_dir'].'/' . $version, $path);
-        $this->addHTTP2Link($resource, $extension);
-
-        return $resource;
+        return $path;
     }
 
     public function asset($path)

@@ -55,10 +55,10 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
 
     public function test_create_dist_directories()
     {
-        $types = array(
-            'css' => array('origin_dir' => 'assets/stylesheets/css', 'dist_dir' => 'assets/stylesheets/dist'),
-            'js'  => array('origin_dir' => 'assets/javascripts/js', 'dist_dir' => 'assets/javascripts/dist'),
-        );
+        $types = [
+            'css' => ['origin_dir' => 'assets/css', 'dist_dir' => 'assets/dist/css'],
+            'js'  => ['origin_dir' => 'assets/js',  'dist_dir' => 'assets/dist/js'],
+        ];
 
         $baseDir = $this->paths['public'].'/';
 
