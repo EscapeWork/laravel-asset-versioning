@@ -1,6 +1,11 @@
 # Laravel - Assets Versioning
 
-[![Build Status](https://travis-ci.org/EscapeWork/laravel-asset-versioning.png)](http://travis-ci.org/EscapeWork/laravel-asset-versioning) [![Latest Stable Version](https://poser.pugx.org/escapework/laravel-asset-versioning/v/stable.png)](https://packagist.org/packages/escapework/laravel-asset-versioning) [![Total Downloads](https://poser.pugx.org/escapework/laravel-asset-versioning/downloads.png)](https://packagist.org/packages/escapework/laravel-asset-versioning)
+<p align="center">
+<a href="https://packagist.org/packages/escapework/laravel-asset-versioning"><img src="https://poser.pugx.org/escapework/laravel-asset-versioning/v/stable.png" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/escapework/laravel-asset-versioning"><img src="https://poser.pugx.org/escapework/laravel-asset-versioning/downloads.png" alt="Downloads"></a>
+<a href="https://travis-ci.org/EscapeWork/laravel-asset-versioning"><img src="https://travis-ci.org/EscapeWork/laravel-asset-versioning.png" alt="Build Status"></a>
+<a href="https://github.com/EscapeWork/laravel-asset-versioning"><img src="https://img.shields.io/packagist/l/orchestra/testbench.svg?style=flat" alt="License MIT"></a>
+</p>
 
 Have you ever had a problem with cache in your assets? This package may help you.
 
