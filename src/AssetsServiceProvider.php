@@ -28,12 +28,12 @@ class AssetsServiceProvider extends ServiceProvider
         $app   = $this->app;
         $cache = $this->getCacheDriver();
 
-        $this->app['escapework.asset'] = $this->app->share(function($app) use($cache)
+        $this->app['escapework.asset'] = $this->app->singleton(function($app) use($cache)
         {
             return new Asset($app, $app['config'], $cache);
         });
 
-        $this->app['escapework.asset.command'] = $this->app->share(function($app) use ($cache)
+        $this->app['escapework.asset.command'] = $this->app->singleton(function($app) use ($cache)
         {
             return new Console\AssetDistCommand($app['config'], new SymLinker, $cache, array(
                 'app'    => app_path(),
