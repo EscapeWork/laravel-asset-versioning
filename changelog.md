@@ -1,3 +1,7 @@
+##### 0.6
+
+* Ready for Laravel 5.4.
+
 ##### 0.4
 
 * Added the option to enable HTTP2 Server Push links in all assets that you add.

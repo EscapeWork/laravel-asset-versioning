@@ -38,7 +38,7 @@ Instead of using the `asset` helper, you will need to use the `Asset:v` method.
 Imagine that your layout template has the following lines:
 
 ```html
-<link rel="stylesheet" href="{{ Asset::v('assets/stylesheets/css/main.css') }}" />
+<link rel="stylesheet" href="{{ Asset::v('assets/stylesheets/css/main.css') }}">
 <script src="{{ Asset::v('assets/javascripts/js/main.js') }}"></script>
 ```
 
