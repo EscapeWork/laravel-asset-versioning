@@ -15,7 +15,7 @@
     },
 
     "require-dev": {
-        "phpunit/phpunit": "@stable",
+        "phpunit/phpunit": "~4.0",
         "mockery/mockery": "@stable", 
         "illuminate/support": "~5",
         "illuminate/console": "~5",
