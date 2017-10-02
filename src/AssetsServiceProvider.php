@@ -41,10 +41,6 @@ class AssetsServiceProvider extends ServiceProvider
 
         $this->commands('escapework.asset.command');
 
-        # alias loader
-        $loader = AliasLoader::getInstance();
-        $loader->alias('Asset', 'EscapeWork\Assets\Facades\Asset');
-
         $this->app['events']->listen('cache:cleared', function() use($app) {
             if ($app->environment() !== 'local') {
                 Artisan::call('asset:dist');
