@@ -11,7 +11,7 @@
     ],
 
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=7.0.0"
     },
 
     "require-dev": {
@@ -33,7 +33,16 @@
 
     "extra": {
         "branch-alias": {
-            "dev-master": "0.6.*-dev"
+            "dev-master": "0.7.*-dev"
+        },
+
+        "laravel": {
+            "providers": [
+                "EscapeWork\\Asserts\\AssetsServiceProvider"
+            ],
+            "aliases": {
+                "Asset": "EscapeWork\\Assets\\Facades\\Asset"
+            }
         }
     }
 }

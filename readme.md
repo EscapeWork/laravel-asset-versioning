@@ -9,20 +9,24 @@
 
 Have you ever had a problem with cache in your assets? This package may help you.
 
+## Version Compatibility
+
+ Laravel  | Laravel Assets Versioning
+:---------|:----------
+ 5.5.x    | 0.7.x
+ 5.4.x    | 0.6.x
+ 5.3.x    | 0.5.x
+ 5.2.x    | 0.4.x
+ 5.1.x    | 0.3.x
+ 5.0.x    | 0.2.x
+ 4.2.x    | 0.1.x
+
 ## Installation
 
 Via Composer:
 
 ```
-$ composer require escapework/laravel-asset-versioning:"0.6.*"
-```
-
-For Laravel 4.2<, use the `0.1.*` version. **PS:** Please note that no all features are available in `0.1` version.
-
-After that, you just need to add the following service provider to your app service providers. Open the file `app/config/app.php` and add this line:
-
-```php
-    EscapeWork\Assets\AssetsServiceProvider::class
+$ composer require escapework/laravel-asset-versioning:"0.7.*"
 ```
 
 And publish the configurations running the following command:
