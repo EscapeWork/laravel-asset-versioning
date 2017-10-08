@@ -38,7 +38,7 @@
 
         "laravel": {
             "providers": [
-                "EscapeWork\\Asserts\\AssetsServiceProvider"
+                "EscapeWork\\Assets\\AssetsServiceProvider"
             ],
             "aliases": {
                 "Asset": "EscapeWork\\Assets\\Facades\\Asset"
