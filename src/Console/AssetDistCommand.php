@@ -66,7 +66,7 @@ class AssetDistCommand extends Command
      *
      * @return mixed
      */
-    public function fire()
+    public function handle()
     {
         $types      = $this->config->get('assets.types');
         $oldVersion = $this->cache->get('laravel-asset-versioning.version');
