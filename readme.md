@@ -11,15 +11,15 @@ Have you ever had a problem with cache in your assets? This package may help you
 
 ## Version Compatibility
 
- Laravel  | Laravel Assets Versioning
-:---------|:----------
- 5.5.x    | 0.7.x
- 5.4.x    | 0.6.x
- 5.3.x    | 0.5.x
- 5.2.x    | 0.4.x
- 5.1.x    | 0.3.x
- 5.0.x    | 0.2.x
- 4.2.x    | 0.1.x
+ Laravel           | Laravel Assets Versioning
+:------------------|:------------------------
+ 5.5.x|5.6.x|5.7.x | 0.7.x
+ 5.4.x             | 0.6.x
+ 5.3.x             | 0.5.x
+ 5.2.x             | 0.4.x
+ 5.1.x             | 0.3.x
+ 5.0.x             | 0.2.x
+ 4.2.x             | 0.1.x
 
 ## Installation
 
@@ -83,7 +83,7 @@ protected $middleware = [
 
 And that's it, your response will come with the `Link` HTTP header.
 
-If you want to add some assets that are not versioned, you can use this method: 
+If you want to add some assets that are not versioned, you can use this method:
 
 ```php
 Asset::addHTTP2Link('/assets/fonts/robotto.woff', 'font');
