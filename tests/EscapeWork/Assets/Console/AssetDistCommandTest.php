@@ -27,7 +27,7 @@ class AssetDistCommandTest extends \PHPUnit_Framework_TestCase
         $command->shouldReceive('unlinkOldDirectories')->once()->with($types, '12345');
         $command->shouldReceive('createDistDirectories')->once($types, m::any());
 
-        $command->fire();
+        $command->handle();
     }
 
     public function test_update_config_version_with_published_config()
