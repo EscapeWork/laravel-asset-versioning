@@ -42,7 +42,7 @@ class AssetsServiceProvider extends ServiceProvider
         $this->commands('escapework.asset.command');
 
         $this->app['events']->listen('cache:cleared', function() use($app) {
-            if ($app->environment() !== 'local') {
+            if (in_array($app->environment(), $app['config']->get('assets.environments'))) {
                 Artisan::call('asset:dist');
             }
         });
