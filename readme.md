@@ -7,13 +7,16 @@
 <a href="https://github.com/EscapeWork/laravel-asset-versioning"><img src="https://img.shields.io/packagist/l/orchestra/testbench.svg?style=flat" alt="License MIT"></a>
 </p>
 
+**Disclaimer:** This package is not really maintained anymore, we recommend you use the Laravel Mix versioning instead.
+
 Have you ever had a problem with cache in your assets? This package may help you.
 
 ## Version Compatibility
 
  Laravel           | Laravel Assets Versioning
 :------------------|:------------------------
- 5.5+|6.x|7.x|8.x  | 0.7.x
+ 6.x/7.x/8.x       | 0.8.x
+ 5.5+              | 0.7.x
  5.4.x             | 0.6.x
  5.3.x             | 0.5.x
  5.2.x             | 0.4.x
