@@ -13,7 +13,7 @@ Have you ever had a problem with cache in your assets? This package may help you
 
  Laravel           | Laravel Assets Versioning
 :------------------|:------------------------
- 5.5.x|5.6.x|5.7.x | 0.7.x
+ 5.5+|6.x|7.x|8.x  | 0.7.x
  5.4.x             | 0.6.x
  5.3.x             | 0.5.x
  5.2.x             | 0.4.x
